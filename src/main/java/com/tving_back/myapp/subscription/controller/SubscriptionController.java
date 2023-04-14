@@ -23,12 +23,6 @@ public class SubscriptionController {
         return subscriptionRepository.findAll();
     }
 
-
-    // 기본 게시물 작성
-//    @PostMapping
-//    public Subscription createSubscription(@RequestBody Subscription subscription) {
-//        return subscriptionRepository.save(subscription);
-//    }
     // 구독 상품 종류 넣기
     @PostConstruct
     public void createSubscriptions() {
@@ -48,22 +42,4 @@ public class SubscriptionController {
         subscriptionRepository.save(premiumSubscription);
     }
 
-    // 게시물 수정
-    @PutMapping("/{id}")
-    public Subscription updateSubscription(@PathVariable Long id, @RequestBody Subscription updatedSubscription) throws NotFoundException{
-        Subscription subscription = subscriptionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Payment not found with id: "+ id));
-        subscription.setName(updatedSubscription.getName());
-        subscription.setPrice(updatedSubscription.getPrice());
-        return subscriptionRepository.save(subscription);
-    }
-
-    // 게시물 삭제
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSubscription(@PathVariable Long id) throws NotFoundException{
-        Subscription subscription = subscriptionRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Payment not found with id: "+ id));
-        subscriptionRepository.delete(subscription);
-        return ResponseEntity.ok().build();
-    }
 }

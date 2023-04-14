@@ -112,12 +112,4 @@ public class PaymentController {
         return paymentRepository.save(payment);
     }
 
-    // 게시물 삭제
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deletePayment(@PathVariable Long id) throws NotFoundException {
-        Payment payment = paymentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Payment not found with id: " + id));
-        paymentRepository.delete(payment);
-        return ResponseEntity.ok().build();
-    }
 }

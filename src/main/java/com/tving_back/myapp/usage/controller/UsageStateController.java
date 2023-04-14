@@ -18,8 +18,6 @@ public class UsageStateController {
 
     @Autowired
     private UsageStateRepository usageStateRepository;
-    @Autowired
-    private PaymentRepository paymentRepository;
     // 모든 게시물 조회
     @GetMapping
     public List<UsageState> getAllUsageStates() {
