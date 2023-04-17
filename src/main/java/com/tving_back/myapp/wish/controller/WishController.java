@@ -1,9 +1,5 @@
 package com.tving_back.myapp.wish.controller;
 
-import com.tving_back.myapp.content.model.Content;
-import com.tving_back.myapp.content.repository.ContentRepository;
-import com.tving_back.myapp.payment.model.Payment;
-import com.tving_back.myapp.usage.model.UsageState;
 import com.tving_back.myapp.wish.model.Wish;
 import com.tving_back.myapp.wish.repository.WishRepository;
 import javassist.NotFoundException;
@@ -42,7 +38,7 @@ public class WishController {
 
     //찜한 컨텐츠 출력
     @GetMapping("/list")
-    public Wish getWish(@ModelAttribute Content content) {
+    public Wish getWish() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
@@ -51,15 +47,11 @@ public class WishController {
         if (allWish == null) {
             return null;
         }
-        if (content == null) {
-            return null;
-        }
+
 
         Optional<Wish> wishOptional = allWish.stream()
                 .filter(state ->
                         userId.equals(state.getUser_id())
-                                && state.getContent().getId() != null
-                        && state.getRemoved_at() == null
                 && state.getRemoved_at() == null
                 && state.getAdded_at() != null)
                 .findFirst();
