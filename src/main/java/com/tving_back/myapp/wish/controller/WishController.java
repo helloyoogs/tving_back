@@ -59,8 +59,9 @@ public class WishController {
                 .filter(state ->
                         userId.equals(state.getUser_id())
                                 && state.getContent().getId() != null
-                        && state.getContent().getId() == state.getContent().getId()
-                && state.getRemoved_at() == null)
+                        && state.getRemoved_at() == null
+                && state.getRemoved_at() == null
+                && state.getAdded_at() != null)
                 .findFirst();
         return wishOptional.orElse(null);
     }
