@@ -23,8 +23,12 @@ public class WishController {
         return wishRepository.findAll();
     }
     //저장
-    @PostMapping
+    @PostMapping("/dataSave")
     public Wish createWish(@RequestBody Wish wish) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        wish.setUser_id(username);
         return wishRepository.save(wish);
     }
 

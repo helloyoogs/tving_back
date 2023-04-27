@@ -18,7 +18,8 @@ public class Wish {
     private Long id;
     private String user_id;
     private String content_id;
-    private String content_genres;
+    @ElementCollection
+    private List<Genre> content_genres;
     private String content_title;
     private String content_poster;
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,5 +31,19 @@ public class Wish {
     public Wish() {
         this.added_at = new Date();
         this.removed_at = new Date();
+    }
+
+    @Embeddable
+    public static class Genre {
+        private int id;
+        private String name;
+
+        public Genre(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
+        public Genre() {
+        }
     }
 }
