@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,19 @@ public class WishController {
     public Wish createWish(@RequestBody Wish wish) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
+
+        if (wish.getContent_genres() == null) {
+            wish.setContent_genres(new ArrayList<>());
+        }
+
+        List<Wish.Genre> genres = new ArrayList<>();
+        for (Wish.Genre genre : wish.getContent_genres()) {
+            Wish.Genre newGenre = new Wish.Genre();
+            newGenre.setId(genre.getId());
+            newGenre.setName(genre.getName());
+            genres.add(newGenre);
+        }
+        wish.setContent_genres(genres);
 
         wish.setUser_id(username);
         return wishRepository.save(wish);

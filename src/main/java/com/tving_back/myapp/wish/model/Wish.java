@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,11 @@ public class Wish {
     private Long id;
     private String user_id;
     private String content_id;
+
     @ElementCollection
-    private List<Genre> content_genres;
+    @CollectionTable(name="content_genres")
+    private List<Genre> content_genres = new ArrayList<>();
+
     private String content_title;
     private String content_poster;
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,16 +38,20 @@ public class Wish {
     }
 
     @Embeddable
+    @Getter
+    @Setter
     public static class Genre {
+        @Column(name = "genre_id")
         private int id;
+        @Column(name = "genre_name")
         private String name;
+
+        public Genre() {}
 
         public Genre(int id, String name) {
             this.id = id;
             this.name = name;
         }
-
-        public Genre() {
-        }
     }
+
 }
