@@ -32,6 +32,9 @@ public class Wish {
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss", timezone="Asia/Seoul")
     private Date removed_at;
+
+    private String content_type;
+
     public Wish() {
         this.added_at = new Date();
         this.removed_at = new Date();
