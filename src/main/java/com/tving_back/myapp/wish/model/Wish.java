@@ -18,7 +18,7 @@ public class Wish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String user_id;
-    private String content_id;
+    private Long content_id;
 
     @ElementCollection
     @CollectionTable(name="content_genres")

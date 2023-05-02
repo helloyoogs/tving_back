@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/wish")
@@ -56,7 +57,7 @@ public class WishController {
 
     //찜한 컨텐츠 출력
     @GetMapping("/list")
-    public Wish getWish() {
+    public List<Wish> getWishList() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
 
@@ -66,14 +67,13 @@ public class WishController {
             return null;
         }
 
-
-        Optional<Wish> wishOptional = allWish.stream()
+        List<Wish> userWishList = allWish.stream()
                 .filter(state ->
                         userId.equals(state.getUser_id())
-                && state.getRemoved_at() == null
-                && state.getAdded_at() != null)
-                .findFirst();
-        return wishOptional.orElse(null);
+                                && state.getRemoved_at() == null
+                                && state.getAdded_at() != null)
+                .collect(Collectors.toList());
+        return userWishList;
     }
 
 }
