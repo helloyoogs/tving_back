@@ -4,9 +4,12 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.tving_back.myapp.repository.MemberRepository;
 import com.tving_back.myapp.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import com.tving_back.myapp.model.Member;
 import com.tving_back.myapp.model.Response;
@@ -17,6 +20,9 @@ import com.tving_back.myapp.model.Request.RequestVerifyEmail;
 import com.tving_back.myapp.service.CookieUtil;
 import com.tving_back.myapp.service.JwtUtil;
 import com.tving_back.myapp.service.RedisUtil;
+
+import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -34,17 +40,28 @@ public class MemberController {
     private CookieUtil cookieUtil;
     @Autowired
     private RedisUtil redisUtil;
-
+    @Autowired
+    private MemberRepository memberRepository;
 
     //사용자 조회
-    @GetMapping("/{username}")
-    public Response getUserByUsername(@PathVariable String username) {
-        try {
-            Member member = authService.findByUsername(username);
-            return new Response("success", "사용자 정보 조회를 성공적으로 완료했습니다.", member);
-        } catch (Exception e) {
-            return new Response("error", "사용자 정보 조회 도중 오류가 발생했습니다.", null);
+    @GetMapping("/userData")
+    public Member getUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+
+        List<Member> allMember = (List<Member>) memberRepository.findAll();
+
+        if (allMember == null) {
+            return null;
         }
+
+        Optional<Member> memberOptional = allMember.stream()
+                .filter(state ->
+                        userId.equals(state.getUsername())
+                )
+                .findFirst();
+
+        return memberOptional.orElse(null);
     }
 
     //회원가입
