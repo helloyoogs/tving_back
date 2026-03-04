@@ -34,4 +34,5 @@ Github (BACK) : https://github.com/helloyoogs/tving_back
 
 - お気に入り機能・お気に入りリスト照会
 
-![Uploading image.png…]()
+<img width="1920" height="929" alt="image" src="https://github.com/user-attachments/assets/cc7a6432-ea09-456d-92e9-fb2aee6a91c9" />
+
